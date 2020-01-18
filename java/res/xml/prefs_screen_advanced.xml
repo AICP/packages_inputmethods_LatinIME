@@ -53,6 +53,16 @@
         android:title="@string/prefs_keyboard_height_scale"
         latin:minValue="50"
         latin:maxValue="120" /> <!-- percentage -->
+    <CheckBoxPreference
+        android:key="pref_space_trackpad"
+        android:title="@string/space_trackpad"
+        android:summary="@string/space_trackpad_summary"
+        android:defaultValue="true" />
+    <CheckBoxPreference
+        android:key="pref_delete_swipe"
+        android:title="@string/delete_swipe"
+        android:summary="@string/delete_swipe_summary"
+        android:defaultValue="true" />
     <PreferenceScreen
         android:fragment="com.android.inputmethod.latin.settings.DebugSettingsFragment"
         android:key="screen_debug"
