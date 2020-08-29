@@ -528,6 +528,11 @@ public class KeyboardBuilder<KP extends KeyboardParams> {
         final AttributeSet attr = Xml.asAttributeSet(parser);
         final TypedArray keyboardAttr = mResources.obtainAttributes(
                 attr, R.styleable.Keyboard_Include);
+        final TypedArray includeAttr = mResources.obtainAttributes(
+                attr, R.styleable.Keyboard);
+        mParams.mDefaultRowHeight = (int)ResourceUtils.getDimensionOrFraction(includeAttr,
+                R.styleable.Keyboard_rowHeight, mParams.mBaseHeight, mParams.mDefaultRowHeight);
+
         final TypedArray keyAttr = mResources.obtainAttributes(attr, R.styleable.Keyboard_Key);
         int keyboardLayout = 0;
         try {
@@ -545,6 +550,7 @@ public class KeyboardBuilder<KP extends KeyboardParams> {
         } finally {
             keyboardAttr.recycle();
             keyAttr.recycle();
+            includeAttr.recycle();
         }
 
         XmlParseUtils.checkEndTag(TAG_INCLUDE, parser);
@@ -678,13 +684,15 @@ public class KeyboardBuilder<KP extends KeyboardParams> {
             final boolean countryCodeMatched = matchCountryCodes(caseAttr, locale);
             final boolean splitLayoutMatched = matchBoolean(caseAttr,
                     R.styleable.Keyboard_Case_isSplitLayout, id.mIsSplitLayout);
+            final boolean showNumberRowMatched = matchBoolean(caseAttr,
+                    R.styleable.Keyboard_Case_showNumberRow, id.mShowNumberRow);
             final boolean selected = keyboardLayoutSetMatched && keyboardLayoutSetElementMatched
                     && keyboardThemeMacthed && modeMatched && navigateNextMatched
                     && navigatePreviousMatched && passwordInputMatched && clobberSettingsKeyMatched
                     && hasShortcutKeyMatched  && languageSwitchKeyEnabledMatched
                     && isMultiLineMatched && imeActionMatched && isIconDefinedMatched
                     && localeCodeMatched && languageCodeMatched && countryCodeMatched
-                    && splitLayoutMatched;
+                    && splitLayoutMatched && showNumberRowMatched;
 
             if (DEBUG) {
                 startTag("<%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s%s>%s", TAG_CASE,

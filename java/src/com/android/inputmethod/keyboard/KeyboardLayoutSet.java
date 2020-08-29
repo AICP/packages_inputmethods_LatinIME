@@ -130,6 +130,7 @@ public final class KeyboardLayoutSet {
         // Indicates if split layout is actually enabled, taking into account
         // whether the user has enabled it, and the keyboard layout supports it.
         boolean mIsSplitLayoutEnabled;
+        boolean mShowNumberRow;
         // Sparse array of KeyboardLayoutSet element parameters indexed by element's id.
         final SparseArray<ElementParams> mKeyboardLayoutSetElementIdToParamsMap =
                 new SparseArray<>();
@@ -360,6 +361,11 @@ public final class KeyboardLayoutSet {
             }
             // If the tag is not found, then the default script is Latin.
             return ScriptUtils.SCRIPT_LATIN;
+        }
+
+        public Builder setShowNumberRow(final boolean enabled) {
+            mParams.mShowNumberRow = enabled;
+            return this;
         }
 
         private static int readScriptIdFromTagFeature(final Resources resources,

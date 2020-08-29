@@ -69,4 +69,8 @@
         android:title="Debug settings"
         android:defaultValue="false"
         android:persistent="true" />
+    <CheckBoxPreference
+        android:key="pref_show_number_row"
+        android:title="@string/show_number_row"
+        android:defaultValue="false" />
 </PreferenceScreen>
