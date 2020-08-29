@@ -73,6 +73,7 @@ import com.android.inputmethod.keyboard.Keyboard;
 import com.android.inputmethod.keyboard.KeyboardActionListener;
 import com.android.inputmethod.keyboard.KeyboardId;
 import com.android.inputmethod.keyboard.KeyboardSwitcher;
+import com.android.inputmethod.keyboard.KeyboardTheme;
 import com.android.inputmethod.keyboard.MainKeyboardView;
 import com.android.inputmethod.latin.Suggest.OnGetSuggestedWordsCallback;
 import com.android.inputmethod.latin.SuggestedWords.SuggestedWordInfo;
@@ -1988,12 +1989,41 @@ public class LatinIME extends InputMethodService implements KeyboardActionListen
         return mRichImm.shouldOfferSwitchingToNextInputMethod(token, fallbackValue);
     }
 
+    private boolean resolveTheme(Resources res) {
+        switch (KeyboardTheme.getSelectedKeyboardThemeId(getApplicationContext())) {
+        case 3:     // THEME_ID_LXX_LIGHT
+            return false;
+        case 4:     // THEME_ID_LXX_DARK
+            return true;
+        // Other available keyboard themes go here
+        default:    // THEME_ID_AUTO_DARK
+            return ((res.getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK)
+                == Configuration.UI_MODE_NIGHT_YES);
+        }
+    }
+
     private void setNavigationBarVisibility(final boolean visible) {
         if (BuildCompatUtils.EFFECTIVE_SDK_INT > Build.VERSION_CODES.M) {
             // For N and later, IMEs can specify Color.TRANSPARENT to make the navigation bar
             // transparent.  For other colors the system uses the default color.
+            Resources res = getResources();
+            boolean isDarkTheme = resolveTheme(res);
             getWindow().getWindow().setNavigationBarColor(
-                    visible ? Color.BLACK : Color.TRANSPARENT);
+                    visible ? (isDarkTheme ?
+                    res.getColor(R.color.key_background_lxx_dark) :
+                    res.getColor(R.color.key_background_lxx_light)): Color.TRANSPARENT);
+
+            if (BuildCompatUtils.EFFECTIVE_SDK_INT > Build.VERSION_CODES.O) {
+                final View decorView = getWindow().getWindow().getDecorView();
+                int systemUiVisibility =  decorView.getSystemUiVisibility();
+                // TODO Need to figure out handling for case when visible is false
+                if(isDarkTheme){
+                    systemUiVisibility &= ~View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+                } else {
+                    systemUiVisibility |= View.SYSTEM_UI_FLAG_LIGHT_NAVIGATION_BAR;
+                }
+                decorView.setSystemUiVisibility(systemUiVisibility);
+            }
         }
     }
 }
