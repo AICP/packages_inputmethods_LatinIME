@@ -124,6 +124,8 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
     public static final String PREF_EMOJI_CATEGORY_LAST_TYPED_ID = "emoji_category_last_typed_id";
     public static final String PREF_LAST_SHOWN_EMOJI_CATEGORY_ID = "last_shown_emoji_category_id";
 
+    public static final String PREF_SHOW_NUMBER_ROW = "pref_show_number_row";
+
     private static final float UNDEFINED_PREFERENCE_VALUE_FLOAT = -1.0f;
     private static final int UNDEFINED_PREFERENCE_VALUE_INT = -1;
 
@@ -268,6 +270,10 @@ public final class Settings implements SharedPreferences.OnSharedPreferenceChang
         return Integer.parseInt(prefs.getString(PREF_KEY_PREVIEW_POPUP_DISMISS_DELAY,
                 Integer.toString(res.getInteger(
                         R.integer.config_key_preview_linger_timeout))));
+    }
+
+    public static boolean readShowNumberRow(final SharedPreferences prefs) {
+        return prefs.getBoolean(PREF_SHOW_NUMBER_ROW, false);
     }
 
     public static boolean readShowsLanguageSwitchKey(final SharedPreferences prefs) {

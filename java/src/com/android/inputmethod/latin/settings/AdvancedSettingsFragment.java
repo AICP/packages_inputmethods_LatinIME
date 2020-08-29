@@ -24,6 +24,7 @@ import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
 
+import com.android.inputmethod.keyboard.KeyboardLayoutSet;
 import com.android.inputmethod.latin.AudioAndHapticFeedbackManager;
 import com.android.inputmethod.latin.R;
 import com.android.inputmethod.latin.SystemBroadcastReceiver;
@@ -115,6 +116,8 @@ public final class AdvancedSettingsFragment extends SubScreenFragment {
         } else if (key.equals(Settings.PREF_SHOW_SETUP_WIZARD_ICON)) {
             SystemBroadcastReceiver.toggleAppIcon(getActivity());
         }
+        if (key.equals(Settings.PREF_SHOW_NUMBER_ROW))
+            KeyboardLayoutSet.onKeyboardThemeChanged();
         updateListPreferenceSummaryToCurrentValue(Settings.PREF_KEY_PREVIEW_POPUP_DISMISS_DELAY);
         refreshEnablingsOfKeypressSoundAndVibrationSettings();
     }

@@ -32,4 +32,5 @@ disposition rather than other common dispositions for Latin languages. [CHAR LIM
     <string name="space_trackpad">Space bar trackpad</string>
     <string name="delete_swipe_summary">Perform a swipe from the delete key to select and remove bigger portions of text at once</string>
     <string name="space_trackpad_summary">Swipe on the spacebar to move the cursor</string>
+    <string name="show_number_row">Show separate number row</string>
 </resources>
